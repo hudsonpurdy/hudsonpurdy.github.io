@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>cs302 deliverable #3</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            body {
+                background-color: black;
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            .navbar-brand {
+                color: white !important;
+                font-weight: bold;
+            }
+
+            .nav-link {
+                color: white !important;
+                margin-left: 20px;
+            }
+
+            .nav-link:hover {
+                color: #cccccc !important;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg" style="background-color: black;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Hudson Purdy</a>
+                <div class="ms-auto">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="project-template.html">Project Templates</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://www.linkedin.com/in/hudsonpurdy/">LinkedIn</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 60px); padding: 20px 0;">
+            <div class="text-center" style="max-width: 1000px;">
+                <h1 class="text-white">CS302 Deliverable: GenAI x Epistemology</h1>
+                <div class="row mt-4 mx-4 align-items-center">
+                    <h4 class="text-white text-center "><strong>Construction:</strong> Command Line GenAI Assistant</h4>
+                    <img src="images/cli_genai.png" alt="Command line GenAI assitant answering question" style="max-width: 700px" class="mx-auto d-block mb-2">
+                    <p class="text-white text-start">
+                        My GenAI Assistant only answers questions about competitive Fortnite. No matter what you ask, it will either redirect the question to Fortnite,
+                        or answer the question in Fortnite terms. The command line itself is nothing special; it prompts the user to type in a prompt, and Gemini will answer.
+                        Typing "exit" will stop the process, and if an error occurs and Gemini is unable to return an answer, a simple error message will be shown in the terminal.
+                        I wanted it to be as simple and user friendly as possible.
+                    </p>
+                    <h4 class="text-white text-center "><strong>Deconstruction:</strong></h4>
+                    <p class="text-white text-start">
+                        Our pre-class readings massively helped my understanding of how GenAI works. I've always had a limited understanding of how GenAI "guesses" the next word
+                        to put in a response, but didn't really understand how this affected output. I've asked GenAI question like "explain your previous answer", but the fact of the
+                        matter is that it won't, it will simply generate a new response that is likely to please me, because it can't explain why it generated an answer other than that 
+                        the combination of words that it chose were the most probable response. Points from classmates like Henry and Adit also helped me develop my stance on AI art,
+                        whether that be visual, audio, or anything inbetween. No matter how the GenAI model is coded, it is nothing without its training data — data that was taken from 
+                        artists that did not consent for their art to be used for AI. How can AI art be considered real art when it is simply stealing hundreds of thousands of artist's
+                        work and simply averaging that to make something?
+                    </p>
+                    <h4 class="text-white text-center"><strong>Construction:</strong> Web-Based GenAI Assistant</h4>
+                    <img src="images/web_genai.png" alt="Web-Based GenAI Assistant answering question about marriage" style="max-width: 700px" class="mx-auto d-block mb-2">
+                    <p class="text-white text-start">
+                        My webpage was extremely bare bones — just raw HTML with flask and jinja working in the background. I kept my system prompt the same, and simply used jinja to update
+                        response and prompt fields whenever the user submitted a prompt. While it could be prettier, it has full functionality, doesn't crash when Gemini hits its usage 
+                        limits/otherwise has an error, and shows both the prompt and the response at the same time. Basic, but easy to use and understand.
+                    </p>
+                    <h4 class="text-white text-center"><strong>Deconstruction:</strong></h4>
+                    <p class="text-white text-start">
+                        I wonder if GenAI will continue to advance at its' current rate. While adding more training data and changing some of the code behind GenAIs has contributed to extremely
+                        fast growth in the past few years, with models like GPT-5 and Opus-4 being unrecognizable compared to any 2023 model, will this growth last? It seems like we have exhausted 
+                        most of the training data available on the internet, and only so many more changes can be made to the models themselves, all with diminishing returns. 
+                    </p>
+                    <h6 class="text-white text-center"><strong>Citations/Readings:</strong></h4>
+                    <p class="text-white text-start">
+                        Riedl, M. (2025, August 7). The Intuition Behind How Large Language Models Work, Part I. Medium. https://mark-riedl.medium.com/the-intuition-behind-how-large-language-models-work-166cf2fb278a
+                        <br><br>
+                        A GPT-4 Capability Forecasting Challenge. (2023). Carlini.com. https://nicholas.carlini.com/writing/llm-forecast/question/Capital-of-Paris
+                        <br><br>
+                        Marcus, G. (2025, December 14). “New Ways to Corrupt LLMs.” Substack.com; Marcus on AI. https://garymarcus.substack.com/p/new-ways-to-corrupt-llms?triedRedirect=true
+                        <br><br>
+                        Evans, R. (n.d.). Foundationalism and Coherentism: An Overview. Philosophos.org. https://www.philosophos.org/epistemological-theories-foundationalism-and-coherentism
+                        <br><br>
+                        Goldman, A. I., & Whitcomb, D. (2011). Social epistemology : Essential Readings. Oxford University Press.
+                        <br><br>
+                        Bergstrom, C. T., & West, J. D. (2025). Modern-day oracles or bullshit machines? How to thrive in a ChatGPT world. https://thebullshitmachines.com
+                        <br><br>
+                        Philosophy Learning & Teaching Organization. (n.d.). Plato’s allegory of the cave.
+
+‌
+
+‌
+‌
+‌
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
