@@ -334,71 +334,33 @@
       margin: 8px 0 10px;
     }
 
-    .primary .title-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
     .primary h2 {
       font-size: 1.7rem;
       font-weight: 700;
       line-height: 1;
     }
 
-    .tag {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .tag b {
-      background: var(--orange);
-      color: #111;
-      padding: 1px 6px;
-    }
-
     .attachments {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .attachments ul {
       list-style: none;
+      margin-top: 6px;
       font-size: 1.02rem;
       font-weight: 500;
       line-height: 1.3;
     }
 
-    .attachments .thumbs {
-      display: flex;
-      gap: 6px;
-    }
-
-    .attachments .thumbs .ph {
-      width: 44px;
-      height: 44px;
-      font-size: 0.55rem;
+    /* "Director", "Runtime", etc. */
+    .k {
+      display: inline-block;
+      min-width: 4.5em;
+      color: var(--label);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.85em;
     }
 
     .secondary .ph {
       aspect-ratio: 16 / 9;
       margin-top: 8px;
-    }
-
-    .wildcard p {
-      margin-top: 4px;
-      font-size: 1.05rem;
-      font-weight: 500;
-      line-height: 1.35;
-      color: #cfcfcf;
     }
 
     .perk {
@@ -572,24 +534,6 @@
       z-index: 1;
     }
 
-    .d-primary .close {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      z-index: 1;
-      width: 22px;
-      height: 22px;
-      border: 2px solid #bbb;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #ddd;
-      text-decoration: none;
-    }
-
-    .d-primary .close:hover { border-color: var(--orange); color: var(--orange); }
 
     .d-primary .film-name {
       position: absolute;
@@ -603,52 +547,8 @@
       text-shadow: 0 2px 6px rgba(0,0,0,0.9);
     }
 
-    .d-primary .badge {
-      position: absolute;
-      right: 12px;
-      bottom: 10px;
-      z-index: 1;
-      display: flex;
-      align-items: stretch;
-      gap: 4px;
-    }
-
-    .d-primary .badge .ph {
-      position: static;
-      width: 46px;
-      height: 46px;
-      border: 1px dashed rgba(255,255,255,0.3);
-      font-size: 0.5rem;
-    }
-
-    .d-primary .badge .lvl {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      font-family: 'Bebas Neue', sans-serif;
-      line-height: 1;
-      text-align: center;
-    }
-
-    .d-primary .badge .lvl small {
-      font-size: 1rem;
-      color: var(--orange);
-    }
-
-    .d-primary .badge .lvl b {
-      font-weight: 400;
-      font-size: 1.25rem;
-      padding: 1px 4px;
-      background: var(--orange);
-      color: #111;
-    }
-
-    /* attachments row */
+    /* details row */
     .d-attach {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 12px;
       padding: 0 8px;
     }
 
@@ -680,8 +580,6 @@
       font-size: 0.55rem;
     }
 
-    .slot.empty { opacity: 0.7; }
-
     /* secondary = trailer */
     .d-secondary {
       position: relative;
@@ -693,18 +591,6 @@
     .d-secondary .ph {
       aspect-ratio: 16 / 9;
       margin-top: 6px;
-    }
-
-    .d-about {
-      padding: 0 8px;
-    }
-
-    .d-about p {
-      margin-top: 6px;
-      font-size: 1.15rem;
-      font-weight: 500;
-      line-height: 1.4;
-      color: #d4d4d4;
     }
 
     /* right column perk rows */
@@ -724,49 +610,11 @@
       line-height: 1.3;
     }
 
-    /* wildcards */
-    .d-wild {
-      grid-column: 1 / -1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .d-wild .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      min-height: 96px;
-      padding: 10px 12px;
-      border: 1px solid var(--box-edge);
-      background: linear-gradient(to bottom, rgba(10,10,10,0.9) 40%, rgba(110,20,20,0.55));
-    }
-
-    .card h3 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    .card p {
-      margin-top: 4px;
+    /* cast / crew names under the row title */
+    .d-perk li.name {
       font-size: 1.05rem;
       font-weight: 500;
-      color: #b5b5b5;
-    }
-
-    .card .ph {
-      width: 64px;
-      flex-shrink: 0;
-      aspect-ratio: 1;
-      font-size: 0.5rem;
+      color: #c4c4c4;
     }
 
     /* keyboard prompts */
@@ -807,13 +655,6 @@
     .key:hover,
     .key:focus-visible { color: #fff; }
 
-    .key .new {
-      margin-left: 4px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.3rem;
-      color: #3ccf5a;
-    }
-
     /* ── Narrow screens: stack it ── */
     @media (max-width: 760px) {
       #screen {
@@ -838,8 +679,6 @@
       .d-grid { grid-template-columns: 1fr; }
 
       .d-primary { aspect-ratio: 16 / 9; }
-
-      .d-wild .cards { grid-template-columns: 1fr; }
 
       .slot { width: 64px; }
     }
@@ -898,60 +737,56 @@
      * ── Film data ──
      * To fill a placeholder, set its `src` to an image/video path
      * (e.g. "images/ender-poster.jpg" or "videos/ender-trailer.mp4").
-     * A YouTube/Vimeo embed URL also works for `trailer.src`.
+     * A YouTube/Vimeo embed URL also works for `trailer`.
      *
-     * `perks` are the right-hand rows (Perk 1/2/3, Lethal, Tactical).
-     * Each has up to two `values` (text lines) and two `images`.
-     * The preview on the list screen only shows the first of each.
+     * Right-hand rows: Perk 1/2/3 = stills[0..2], Lethal = cast, Tactical = crew.
      */
     const FILMS = [
       {
         slug: 'ender',
         name: 'Ender',
-        year: '20XX',
-        role: 'Director',
-        poster:  { src: '', label: 'Poster / Key Still' },
-        details: ['Runtime — TBD', 'Format — TBD', 'Genre — TBD'],
-        detailImages: ['', ''],
-        trailer: { src: '', label: 'Trailer / Film Video' },
-        description: 'Description coming soon. A short synopsis of Ender goes here — what it is about, how it was made, and anything worth knowing before watching.',
-        perks: [
-          { heading: 'Perk 1',   values: ['Still 1'],              images: [''] },
-          { heading: 'Perk 2',   values: ['Still 2', 'Still 3'],   images: ['', ''] },
-          { heading: 'Perk 3',   values: ['Still 4', 'Still 5'],   images: ['', ''] },
-          { heading: 'Lethal',   values: ['Cast & crew TBD'],      images: [''] },
-          { heading: 'Tactical', values: ['Screenings TBD'],       images: [''] },
-        ],
-        wildcards: [
-          { title: 'Awards',            text: 'Coming soon.',        src: '' },
-          { title: 'Credits',           text: 'Full credits TBD.',   src: '' },
-          { title: 'Behind the Scenes', text: 'BTS photos TBD.',     src: '' },
-        ],
+        director: 'TBD',
+        runtime: 'TBD',
+        genre: 'TBD',
+        format: 'TBD',
+        cast: ['TBD'],
+        crew: ['TBD'],
+        poster: '',
+        trailer: '',
+        stills: ['', '', ''],
       },
       {
-        slug: 'to-a-rave',
-        name: 'To A Rave',
-        year: '20XX',
-        role: 'Director',
-        poster:  { src: '', label: 'Poster / Key Still' },
-        details: ['Runtime — TBD', 'Format — TBD', 'Genre — TBD'],
-        detailImages: ['', ''],
-        trailer: { src: '', label: 'Trailer / Film Video' },
-        description: 'Description coming soon. A short synopsis of To A Rave goes here — what it is about, how it was made, and anything worth knowing before watching.',
-        perks: [
-          { heading: 'Perk 1',   values: ['Still 1'],              images: [''] },
-          { heading: 'Perk 2',   values: ['Still 2', 'Still 3'],   images: ['', ''] },
-          { heading: 'Perk 3',   values: ['Still 4', 'Still 5'],   images: ['', ''] },
-          { heading: 'Lethal',   values: ['Cast & crew TBD'],      images: [''] },
-          { heading: 'Tactical', values: ['Screenings TBD'],       images: [''] },
-        ],
-        wildcards: [
-          { title: 'Awards',            text: 'Coming soon.',        src: '' },
-          { title: 'Credits',           text: 'Full credits TBD.',   src: '' },
-          { title: 'Behind the Scenes', text: 'BTS photos TBD.',     src: '' },
-        ],
+        slug: 'lgbtar',
+        name: 'Lonely Boy Goes To A Rave',
+        director: 'TBD',
+        runtime: 'TBD',
+        genre: 'TBD',
+        format: 'TBD',
+        cast: ['TBD'],
+        crew: ['TBD'],
+        poster: '',
+        trailer: '',
+        stills: ['', '', ''],
       },
     ];
+
+    const details = f => [
+      ['Director', f.director],
+      ['Runtime',  f.runtime],
+      ['Genre',    f.genre],
+      ['Format',   f.format],
+    ];
+
+    const perks = f => [
+      { heading: 'Perk 1',   title: 'Still 1', src: f.stills[0] },
+      { heading: 'Perk 2',   title: 'Still 2', src: f.stills[1] },
+      { heading: 'Perk 3',   title: 'Still 3', src: f.stills[2] },
+      { heading: 'Lethal',   title: 'Cast',    names: f.cast },
+      { heading: 'Tactical', title: 'Crew',    names: f.crew },
+    ];
+
+    const detailItems = f =>
+      details(f).map(([k, v]) => `<li><span class="k">${k}</span> ${v}</li>`).join('');
 
     const SLOTS = 10;
     const screen = document.getElementById('screen');
@@ -997,37 +832,25 @@
         <div class="col">
           <div class="cell primary">
             <div class="label">Primary</div>
-            ${media(f.poster.src, f.poster.label)}
-            <div class="title-row">
-              <h2>${f.name}</h2>
-              <span class="tag">${f.role} <b>${f.year}</b></span>
-            </div>
-            <div class="attachments">
-              <ul>${f.details.map(d => `<li>${d}</li>`).join('')}</ul>
-              <div class="thumbs">${f.detailImages.map(s => media(s, 'Img')).join('')}</div>
-            </div>
+            ${media(f.poster, 'Poster / Key Still')}
+            <h2>${f.name}</h2>
+            <ul class="attachments">${detailItems(f)}</ul>
           </div>
 
           <div class="cell secondary">
             <div class="label">Secondary</div>
-            ${media(f.trailer.src, f.trailer.label)}
-          </div>
-
-          <div class="cell wildcard">
-            <div class="label">Wildcard</div>
-            <div class="value">Description</div>
-            <p>${f.description}</p>
+            ${media(f.trailer, 'Trailer / Film Video')}
           </div>
         </div>
 
         <div class="col">
-          ${f.perks.map(p => `
+          ${perks(f).map(p => `
             <div class="cell perk">
               <div>
                 <div class="label">${p.heading}</div>
-                <div class="value">${p.values[0]}</div>
+                <div class="value">${p.names ? `${p.title}: ${p.names.join(', ')}` : p.title}</div>
               </div>
-              ${media(p.images[0], 'Image')}
+              ${p.names ? '' : media(p.src, 'Image')}
             </div>
           `).join('')}
         </div>
@@ -1045,10 +868,7 @@
     }
 
     /* ── Detail view ── */
-    const slot = (src, label) =>
-      src === undefined
-        ? `<div class="slot empty"></div>`
-        : `<div class="slot">${media(src, label)}</div>`;
+    const slot = (src, label) => `<div class="slot">${media(src, label)}</div>`;
 
     function renderDetail() {
       const f = FILMS[current];
@@ -1062,7 +882,7 @@
           </div>
           <div class="group">
             <span class="tokens">${SLOTS - FILMS.length} Open Slots</span>
-            <button class="key" data-watch><b>X</b>Watch Film<span class="new">NEW</span></button>
+            <button class="key" data-watch><b>X</b>Watch Film</button>
           </div>
         </div>
 
@@ -1080,57 +900,34 @@
           <div class="d-grid">
             <div class="d-left">
               <div class="d-primary">
-                ${media(f.poster.src, f.poster.label)}
+                ${media(f.poster, 'Poster / Key Still')}
                 <span class="label corner-label">Primary</span>
-                <a class="close" href="#" aria-label="Back to film list">X</a>
                 <span class="film-name">${f.name}</span>
-                <span class="badge">
-                  ${media('', 'Badge')}
-                  <span class="lvl"><small>${f.role}</small><b>${f.year}</b></span>
-                </span>
               </div>
 
               <div class="d-attach">
-                <div>
-                  <div class="d-section-label">Details</div>
-                  <ul>${f.details.map(d => `<li>${d}</li>`).join('')}</ul>
-                </div>
-                <div class="slots">${f.detailImages.map(s => slot(s, 'Image')).join('')}</div>
+                <div class="d-section-label">Details</div>
+                <ul>${detailItems(f)}</ul>
               </div>
 
               <div class="d-secondary" id="trailer">
                 <div class="d-section-label">Secondary</div>
-                ${media(f.trailer.src, f.trailer.label)}
-              </div>
-
-              <div class="d-about">
-                <div class="d-section-label">About</div>
-                <p>${f.description}</p>
+                ${media(f.trailer, 'Trailer / Film Video')}
               </div>
             </div>
 
             <div class="d-right">
-              ${f.perks.map(p => `
+              ${perks(f).map(p => `
                 <div class="d-perk">
                   <div>
                     <div class="d-section-label">${p.heading}</div>
-                    <ul>${p.values.map(v => `<li>${v}</li>`).join('')}</ul>
+                    <ul>${p.names
+                      ? `<li>${p.title}</li>${p.names.map(n => `<li class="name">${n}</li>`).join('')}`
+                      : `<li>${p.title}</li>`}</ul>
                   </div>
-                  <div class="slots">${slot(p.images[0], 'Image')}${slot(p.images[1], 'Image')}</div>
+                  ${p.names ? '' : `<div class="slots">${slot(p.src, 'Image')}</div>`}
                 </div>
               `).join('')}
-            </div>
-
-            <div class="d-wild">
-              <div class="d-section-label">Wildcards</div>
-              <div class="cards">
-                ${f.wildcards.map(w => `
-                  <div class="card">
-                    <div><h3>${w.title}</h3><p>${w.text}</p></div>
-                    ${media(w.src, 'Icon')}
-                  </div>
-                `).join('')}
-              </div>
             </div>
           </div>
         </div>
