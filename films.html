@@ -6,7 +6,7 @@
   <title>f1lm5</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     * {
       margin: 0;
@@ -14,12 +14,28 @@
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
+    :root {
+      --orange: #e87c20;
+      --text: #e8e8e8;
+      --label: #9a9a9a;
+      --line: rgba(255,255,255,0.08);
+      --panel: rgba(18,18,18,0.82);
+      --cell: rgba(255,255,255,0.035);
+      --box: rgba(10,10,10,0.75);
+      --box-edge: #3c3c3c;
+    }
+
     body {
       width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
       background: #000;
-      font-family: 'Bebas Neue', sans-serif;
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      color: var(--text);
     }
 
     /* ── Video background ── */
@@ -34,7 +50,7 @@
       transform: translate(-50%, -50%);
       object-fit: cover;
       z-index: 0;
-      opacity: 0.55;
+      opacity: 0.35;
     }
 
     /* Dark vignette overlay */
@@ -42,8 +58,8 @@
       position: fixed;
       inset: 0;
       background: radial-gradient(ellipse at center,
-        transparent 30%,
-        rgba(0,0,0,0.75) 100%);
+        rgba(0,0,0,0.2) 30%,
+        rgba(0,0,0,0.85) 100%);
       z-index: 1;
     }
 
@@ -54,18 +70,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 0 16px 3vh;
     }
 
     /* ── Name at top ── */
     #name {
       margin-top: 3.5vh;
+      font-family: 'Bebas Neue', sans-serif;
       letter-spacing: 0.35em;
       font-size: clamp(1rem, 3vw, 2rem);
       font-weight: 700;
       color: #e8e8e8;
       text-transform: uppercase;
       text-decoration: none;
+      text-align: center;
       text-shadow:
         0 0 12px rgba(255,255,255,0.25),
         0 2px 6px rgba(0,0,0,0.8);
@@ -75,7 +94,7 @@
 
     #name:hover,
     #name:focus {
-      color: #e87c20;
+      color: var(--orange);
       text-shadow: 0 0 14px rgba(232, 124, 32, 0.7), 0 1px 4px rgba(0,0,0,0.9);
     }
 
@@ -110,10 +129,9 @@
     #name:hover span::after,
     #name:focus span::after {
       opacity: 1;
-      border-color: #e87c20;
+      border-color: var(--orange);
     }
 
-    /* thin rule under name */
     #name::after {
       content: '';
       display: block;
@@ -123,25 +141,713 @@
       background: linear-gradient(to right, transparent, rgba(200,200,200,0.5), transparent);
     }
 
-    /* ── Centre content ── */
-    #content {
-      flex: 1;
+    /* ══════════ Shared pieces ══════════ */
+    .label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+
+    .value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* placeholder boxes */
+    .ph {
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
+      border: 1px dashed rgba(255,255,255,0.22);
+      background:
+        repeating-linear-gradient(45deg,
+          rgba(255,255,255,0.025) 0 10px,
+          transparent 10px 20px);
+      color: #777;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
-    #content p {
-      color: #b0c4c4;
-      letter-spacing: 0.3em;
-      font-size: clamp(1rem, 2.5vw, 1.8rem);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+    .ph img,
+    .ph video,
+    .ph iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 0;
+      display: block;
+    }
+
+    /* segmented progress bar */
+    .bar {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    .bar .count {
+      align-self: flex-end;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      line-height: 1;
+      color: var(--orange);
+    }
+
+    .bar .segments {
+      display: flex;
+      gap: 4px;
+    }
+
+    .bar .segments i {
+      flex: 1;
+      height: 8px;
+      background: #2d2d2d;
+    }
+
+    .bar .segments i.on {
+      background: var(--orange);
+    }
+
+    @keyframes swap {
+      from { opacity: 0; transform: translateX(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ══════════ Film list screen ══════════ */
+    #screen {
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 3vh;
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas:
+        "head  bar"
+        "list  loadout"
+        "foot  foot";
+      column-gap: 28px;
+      row-gap: 10px;
+    }
+
+    #head { grid-area: head; }
+
+    #head h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    }
+
+    .set-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .bumper {
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: 6px 6px 2px 2px;
+      background: #3a3a3a;
+      color: #ccc;
+    }
+
+    #screen .bar { grid-area: bar; }
+
+    /* left list */
+    #list {
+      grid-area: list;
+      list-style: none;
+      padding-top: 6px;
+    }
+
+    #list a {
+      display: block;
+      font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+      text-decoration: none;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+      outline: none;
+      transition: color 0.12s;
+    }
+
+    #list a[aria-selected="true"] {
+      color: var(--orange);
+      text-shadow: 0 0 12px rgba(232,124,32,0.45);
+    }
+
+    #list .hint {
+      margin-top: 10px;
+      padding-left: 14px;
+      text-indent: -12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #bbb;
+    }
+
+    /* preview loadout panel */
+    #loadout {
+      grid-area: loadout;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 2px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 2px;
+      animation: swap 0.22s ease-out;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cell {
+      background: var(--cell);
+      padding: 10px 12px;
+    }
+
+    .primary .ph {
+      aspect-ratio: 16 / 9;
+      margin: 8px 0 10px;
+    }
+
+    .primary .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .primary h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .tag b {
+      background: var(--orange);
+      color: #111;
+      padding: 1px 6px;
+    }
+
+    .attachments {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .attachments ul {
+      list-style: none;
+      font-size: 1.02rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .attachments .thumbs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .attachments .thumbs .ph {
+      width: 44px;
+      height: 44px;
+      font-size: 0.55rem;
+    }
+
+    .secondary .ph {
+      aspect-ratio: 16 / 9;
+      margin-top: 8px;
+    }
+
+    .wildcard p {
+      margin-top: 4px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.35;
+      color: #cfcfcf;
+    }
+
+    .perk {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .perk .ph {
+      width: 96px;
+      flex-shrink: 0;
+      aspect-ratio: 16 / 10;
+      font-size: 0.6rem;
+    }
+
+    /* list footer prompts */
+    #foot {
+      grid-area: foot;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 4px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    #foot .group {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .prompt {
+      all: unset;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .prompt:hover,
+    .prompt:focus-visible { color: #fff; }
+
+    .btn {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: inset 0 -2px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.15);
+    }
+    .btn.a { background: #2e9e4a; }
+    .btn.b { background: #b8312f; }
+    .btn.x { background: #2c5fc0; }
+
+    .tokens { color: var(--orange); }
+
+    /* ══════════ Film detail screen ══════════ */
+    #detail {
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 2vh;
+      animation: rise 0.25s ease-out;
+    }
+
+    /* angled frame rails top & bottom */
+    .rail {
+      display: block;
+      width: 100%;
+      height: 14px;
+      overflow: visible;
+    }
+
+    .rail polyline {
+      fill: none;
+      stroke: #4a4a4a;
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .d-inner {
+      padding: 10px 2%;
+    }
+
+    .d-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .d-head h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    }
+
+    .d-head .count {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--orange);
+    }
+
+    #detail .segments {
+      display: flex;
+      gap: 6px;
+      margin: 10px 0 16px;
+    }
+
+    #detail .segments i {
+      flex: 1;
+      height: 8px;
+      background: #2d2d2d;
+    }
+
+    #detail .segments i.on { background: var(--orange); }
+
+    .d-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 14px 22px;
+    }
+
+    .d-left,
+    .d-right {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .d-section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--label);
+      line-height: 1;
+    }
+
+    /* primary: big orange-framed poster */
+    .d-primary {
+      position: relative;
+      aspect-ratio: 16 / 7;
+      border: 2px solid var(--orange);
+      background: var(--box);
+      box-shadow: 0 0 18px rgba(232,124,32,0.18);
+    }
+
+    .d-primary .ph {
+      position: absolute;
+      inset: 0;
+      border: 0;
+    }
+
+    .d-primary .corner-label {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      z-index: 1;
+    }
+
+    .d-primary .close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      z-index: 1;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #bbb;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ddd;
+      text-decoration: none;
+    }
+
+    .d-primary .close:hover { border-color: var(--orange); color: var(--orange); }
+
+    .d-primary .film-name {
+      position: absolute;
+      left: 12px;
+      bottom: 6px;
+      z-index: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+      line-height: 1;
+      color: var(--orange);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+    }
+
+    .d-primary .badge {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      gap: 4px;
+    }
+
+    .d-primary .badge .ph {
+      position: static;
+      width: 46px;
+      height: 46px;
+      border: 1px dashed rgba(255,255,255,0.3);
+      font-size: 0.5rem;
+    }
+
+    .d-primary .badge .lvl {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Bebas Neue', sans-serif;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .d-primary .badge .lvl small {
+      font-size: 1rem;
+      color: var(--orange);
+    }
+
+    .d-primary .badge .lvl b {
+      font-weight: 400;
+      font-size: 1.25rem;
+      padding: 1px 4px;
+      background: var(--orange);
+      color: #111;
+    }
+
+    /* attachments row */
+    .d-attach {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px;
+    }
+
+    .d-attach ul {
+      list-style: none;
+      margin-top: 6px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .slots {
+      display: flex;
+      gap: 14px;
+    }
+
+    .slot {
+      width: 84px;
+      aspect-ratio: 1;
+      background: var(--box);
+      border: 1px solid var(--box-edge);
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
+    }
+
+    .slot .ph {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      font-size: 0.55rem;
+    }
+
+    .slot.empty { opacity: 0.7; }
+
+    /* secondary = trailer */
+    .d-secondary {
+      position: relative;
+      background: var(--box);
+      border: 1px solid var(--box-edge);
+      padding: 6px 8px 8px;
+    }
+
+    .d-secondary .ph {
+      aspect-ratio: 16 / 9;
+      margin-top: 6px;
+    }
+
+    .d-about {
+      padding: 0 8px;
+    }
+
+    .d-about p {
+      margin-top: 6px;
+      font-size: 1.15rem;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #d4d4d4;
+    }
+
+    /* right column perk rows */
+    .d-perk {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 6px 8px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.025));
+    }
+
+    .d-perk ul {
+      list-style: none;
+      margin-top: 4px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    /* wildcards */
+    .d-wild {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .d-wild .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 96px;
+      padding: 10px 12px;
+      border: 1px solid var(--box-edge);
+      background: linear-gradient(to bottom, rgba(10,10,10,0.9) 40%, rgba(110,20,20,0.55));
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .card p {
+      margin-top: 4px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #b5b5b5;
+    }
+
+    .card .ph {
+      width: 64px;
+      flex-shrink: 0;
+      aspect-ratio: 1;
+      font-size: 0.5rem;
+    }
+
+    /* keyboard prompts */
+    .d-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      margin-bottom: 10px;
+      padding: 0 2%;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .d-controls .group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+    }
+
+    .key {
+      all: unset;
+      cursor: pointer;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .key b {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 1.45rem;
+      color: #e8a33a;
+      margin-right: 4px;
+    }
+
+    .key:hover,
+    .key:focus-visible { color: #fff; }
+
+    .key .new {
+      margin-left: 4px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: #3ccf5a;
+    }
+
+    /* ── Narrow screens: stack it ── */
+    @media (max-width: 760px) {
+      #screen {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "head"
+          "bar"
+          "list"
+          "loadout"
+          "foot";
+      }
+
+      #list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+      }
+
+      #list .hint { width: 100%; }
+
+      #loadout,
+      .d-grid { grid-template-columns: 1fr; }
+
+      .d-primary { aspect-ratio: 16 / 9; }
+
+      .d-wild .cards { grid-template-columns: 1fr; }
+
+      .slot { width: 64px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background video — replace bg.mp4 with your uploaded video filename -->
+  <!-- Background video -->
   <video id="bg-video" autoplay muted loop playsinline>
     <source src="videos/bg.mp4" type="video/mp4" />
   </video>
@@ -150,11 +856,350 @@
 
   <div id="ui">
     <a id="name" href="index.html"><span>Hudson Sterling Batavia Purdy</span></a>
-    <div id="content">
-      <p>MORE COMING SOON</p>
-    </div>
+
+    <!-- ── List view: hover a film to preview, click to open ── -->
+    <main id="screen">
+      <div id="head">
+        <h1>Choose Film</h1>
+        <div class="set-select">
+          <span class="bumper">LB</span>
+          <span>Film Set 1</span>
+          <span class="bumper">RB</span>
+        </div>
+      </div>
+
+      <div class="bar">
+        <span class="count" data-count></span>
+        <div class="segments" data-segments></div>
+      </div>
+
+      <ul id="list" role="listbox" aria-label="Films"></ul>
+
+      <section id="loadout" aria-live="polite"></section>
+
+      <footer id="foot">
+        <div class="group">
+          <button class="prompt" id="select-btn"><span class="btn a">A</span>Select</button>
+          <a class="prompt" href="index.html"><span class="btn b">B</span>Back</a>
+        </div>
+        <div class="group">
+          <span class="tokens" data-tokens></span>
+          <button class="prompt" id="watch-btn"><span class="btn x">X</span>Watch Film</button>
+        </div>
+      </footer>
+    </main>
+
+    <!-- ── Detail view (films.html#slug) ── -->
+    <main id="detail" hidden></main>
   </div>
 
+  <script>
+    /*
+     * ── Film data ──
+     * To fill a placeholder, set its `src` to an image/video path
+     * (e.g. "images/ender-poster.jpg" or "videos/ender-trailer.mp4").
+     * A YouTube/Vimeo embed URL also works for `trailer.src`.
+     *
+     * `perks` are the right-hand rows (Perk 1/2/3, Lethal, Tactical).
+     * Each has up to two `values` (text lines) and two `images`.
+     * The preview on the list screen only shows the first of each.
+     */
+    const FILMS = [
+      {
+        slug: 'ender',
+        name: 'Ender',
+        year: '20XX',
+        role: 'Director',
+        poster:  { src: '', label: 'Poster / Key Still' },
+        details: ['Runtime — TBD', 'Format — TBD', 'Genre — TBD'],
+        detailImages: ['', ''],
+        trailer: { src: '', label: 'Trailer / Film Video' },
+        description: 'Description coming soon. A short synopsis of Ender goes here — what it is about, how it was made, and anything worth knowing before watching.',
+        perks: [
+          { heading: 'Perk 1',   values: ['Still 1'],              images: [''] },
+          { heading: 'Perk 2',   values: ['Still 2', 'Still 3'],   images: ['', ''] },
+          { heading: 'Perk 3',   values: ['Still 4', 'Still 5'],   images: ['', ''] },
+          { heading: 'Lethal',   values: ['Cast & crew TBD'],      images: [''] },
+          { heading: 'Tactical', values: ['Screenings TBD'],       images: [''] },
+        ],
+        wildcards: [
+          { title: 'Awards',            text: 'Coming soon.',        src: '' },
+          { title: 'Credits',           text: 'Full credits TBD.',   src: '' },
+          { title: 'Behind the Scenes', text: 'BTS photos TBD.',     src: '' },
+        ],
+      },
+      {
+        slug: 'to-a-rave',
+        name: 'To A Rave',
+        year: '20XX',
+        role: 'Director',
+        poster:  { src: '', label: 'Poster / Key Still' },
+        details: ['Runtime — TBD', 'Format — TBD', 'Genre — TBD'],
+        detailImages: ['', ''],
+        trailer: { src: '', label: 'Trailer / Film Video' },
+        description: 'Description coming soon. A short synopsis of To A Rave goes here — what it is about, how it was made, and anything worth knowing before watching.',
+        perks: [
+          { heading: 'Perk 1',   values: ['Still 1'],              images: [''] },
+          { heading: 'Perk 2',   values: ['Still 2', 'Still 3'],   images: ['', ''] },
+          { heading: 'Perk 3',   values: ['Still 4', 'Still 5'],   images: ['', ''] },
+          { heading: 'Lethal',   values: ['Cast & crew TBD'],      images: [''] },
+          { heading: 'Tactical', values: ['Screenings TBD'],       images: [''] },
+        ],
+        wildcards: [
+          { title: 'Awards',            text: 'Coming soon.',        src: '' },
+          { title: 'Credits',           text: 'Full credits TBD.',   src: '' },
+          { title: 'Behind the Scenes', text: 'BTS photos TBD.',     src: '' },
+        ],
+      },
+    ];
+
+    const SLOTS = 10;
+    const screen = document.getElementById('screen');
+    const detail = document.getElementById('detail');
+    const list = document.getElementById('list');
+    const loadout = document.getElementById('loadout');
+    let current = 0;
+
+    // Render an image/video if a src is set, otherwise a labeled placeholder box
+    function media(src, label) {
+      if (!src) return `<div class="ph">${label}</div>`;
+      if (/youtube\.com|youtu\.be|vimeo\.com/.test(src))
+        return `<div class="ph"><iframe src="${src}" allowfullscreen title="${label}"></iframe></div>`;
+      if (/\.(mp4|webm|mov)$/i.test(src))
+        return `<div class="ph"><video src="${src}" controls playsinline></video></div>`;
+      return `<div class="ph"><img src="${src}" alt="${label}"></div>`;
+    }
+
+    const segments = () =>
+      Array.from({ length: SLOTS }, (_, i) => `<i class="${i < FILMS.length ? 'on' : ''}"></i>`).join('');
+
+    function retrigger(el) {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    }
+
+    /* ── List view ── */
+    function renderList() {
+      list.innerHTML = FILMS.map((f, i) => `
+        <li><a href="#${f.slug}" role="option" data-i="${i}" aria-selected="${i === current}">${f.name}</a></li>
+      `).join('') + `<li class="hint">&#9656; Hover to preview. Click to open.</li>`;
+
+      list.querySelectorAll('a').forEach(a => {
+        a.addEventListener('mouseenter', () => preview(+a.dataset.i));
+        a.addEventListener('focus', () => preview(+a.dataset.i));
+      });
+    }
+
+    function renderLoadout() {
+      const f = FILMS[current];
+      loadout.innerHTML = `
+        <div class="col">
+          <div class="cell primary">
+            <div class="label">Primary</div>
+            ${media(f.poster.src, f.poster.label)}
+            <div class="title-row">
+              <h2>${f.name}</h2>
+              <span class="tag">${f.role} <b>${f.year}</b></span>
+            </div>
+            <div class="attachments">
+              <ul>${f.details.map(d => `<li>${d}</li>`).join('')}</ul>
+              <div class="thumbs">${f.detailImages.map(s => media(s, 'Img')).join('')}</div>
+            </div>
+          </div>
+
+          <div class="cell secondary">
+            <div class="label">Secondary</div>
+            ${media(f.trailer.src, f.trailer.label)}
+          </div>
+
+          <div class="cell wildcard">
+            <div class="label">Wildcard</div>
+            <div class="value">Description</div>
+            <p>${f.description}</p>
+          </div>
+        </div>
+
+        <div class="col">
+          ${f.perks.map(p => `
+            <div class="cell perk">
+              <div>
+                <div class="label">${p.heading}</div>
+                <div class="value">${p.values[0]}</div>
+              </div>
+              ${media(p.images[0], 'Image')}
+            </div>
+          `).join('')}
+        </div>
+      `;
+      retrigger(loadout);
+    }
+
+    function preview(i) {
+      i = (i + FILMS.length) % FILMS.length;
+      if (i === current && loadout.innerHTML) return;
+      current = i;
+      list.querySelectorAll('a').forEach(a =>
+        a.setAttribute('aria-selected', +a.dataset.i === current));
+      renderLoadout();
+    }
+
+    /* ── Detail view ── */
+    const slot = (src, label) =>
+      src === undefined
+        ? `<div class="slot empty"></div>`
+        : `<div class="slot">${media(src, label)}</div>`;
+
+    function renderDetail() {
+      const f = FILMS[current];
+      document.title = `${f.name} — f1lm5`;
+      detail.innerHTML = `
+        <div class="d-controls">
+          <div class="group">
+            <a class="key" href="#"><b>ESC</b>Back</a>
+            <button class="key" data-step="-1"><b>Q</b>Prev Film</button>
+            <button class="key" data-step="1"><b>E</b>Next Film</button>
+          </div>
+          <div class="group">
+            <span class="tokens">${SLOTS - FILMS.length} Open Slots</span>
+            <button class="key" data-watch><b>X</b>Watch Film<span class="new">NEW</span></button>
+          </div>
+        </div>
+
+        <svg class="rail" viewBox="0 0 100 14" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="0,13 1.5,13 2.5,1 97.5,1 98.5,13 100,13" />
+        </svg>
+
+        <div class="d-inner">
+          <div class="d-head">
+            <h1>${f.name}</h1>
+            <span class="count">${current + 1}/${FILMS.length}</span>
+          </div>
+          <div class="segments">${segments()}</div>
+
+          <div class="d-grid">
+            <div class="d-left">
+              <div class="d-primary">
+                ${media(f.poster.src, f.poster.label)}
+                <span class="label corner-label">Primary</span>
+                <a class="close" href="#" aria-label="Back to film list">X</a>
+                <span class="film-name">${f.name}</span>
+                <span class="badge">
+                  ${media('', 'Badge')}
+                  <span class="lvl"><small>${f.role}</small><b>${f.year}</b></span>
+                </span>
+              </div>
+
+              <div class="d-attach">
+                <div>
+                  <div class="d-section-label">Details</div>
+                  <ul>${f.details.map(d => `<li>${d}</li>`).join('')}</ul>
+                </div>
+                <div class="slots">${f.detailImages.map(s => slot(s, 'Image')).join('')}</div>
+              </div>
+
+              <div class="d-secondary" id="trailer">
+                <div class="d-section-label">Secondary</div>
+                ${media(f.trailer.src, f.trailer.label)}
+              </div>
+
+              <div class="d-about">
+                <div class="d-section-label">About</div>
+                <p>${f.description}</p>
+              </div>
+            </div>
+
+            <div class="d-right">
+              ${f.perks.map(p => `
+                <div class="d-perk">
+                  <div>
+                    <div class="d-section-label">${p.heading}</div>
+                    <ul>${p.values.map(v => `<li>${v}</li>`).join('')}</ul>
+                  </div>
+                  <div class="slots">${slot(p.images[0], 'Image')}${slot(p.images[1], 'Image')}</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="d-wild">
+              <div class="d-section-label">Wildcards</div>
+              <div class="cards">
+                ${f.wildcards.map(w => `
+                  <div class="card">
+                    <div><h3>${w.title}</h3><p>${w.text}</p></div>
+                    ${media(w.src, 'Icon')}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <svg class="rail" viewBox="0 0 100 14" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="0,1 1.5,1 2.5,13 97.5,13 98.5,1 100,1" />
+        </svg>
+      `;
+
+      detail.querySelectorAll('[data-step]').forEach(b =>
+        b.addEventListener('click', () => openFilm(current + +b.dataset.step)));
+      detail.querySelector('[data-watch]').addEventListener('click', watch);
+      retrigger(detail);
+    }
+
+    function openFilm(i) {
+      i = (i + FILMS.length) % FILMS.length;
+      location.hash = FILMS[i].slug;
+    }
+
+    function watch() {
+      document.getElementById('trailer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    /* ── Routing: films.html shows the list, films.html#slug shows a film ── */
+    function route() {
+      const i = FILMS.findIndex(f => f.slug === location.hash.slice(1));
+      if (i === -1) {
+        detail.hidden = true;
+        screen.hidden = false;
+        document.title = 'f1lm5';
+        preview(current);
+        list.querySelector(`[data-i="${current}"]`).focus({ preventScroll: true });
+      } else {
+        current = i;
+        screen.hidden = true;
+        detail.hidden = false;
+        renderDetail();
+        window.scrollTo(0, 0);
+      }
+    }
+
+    // Keyboard: list = ↑/↓ preview, Enter open, Esc home. Detail = Q/E or ←/→ switch, Esc back.
+    document.addEventListener('keydown', e => {
+      const inDetail = !detail.hidden;
+      const k = e.key;
+      if (inDetail) {
+        if (k === 'Escape' || k === 'Backspace') location.hash = '';
+        if (['q', 'Q', 'ArrowLeft'].includes(k))  openFilm(current - 1);
+        if (['e', 'E', 'ArrowRight'].includes(k)) openFilm(current + 1);
+        if (k === 'x' || k === 'X') watch();
+      } else {
+        if (['ArrowDown', 's', 'S'].includes(k)) { e.preventDefault(); preview(current + 1); list.querySelector(`[data-i="${current}"]`).focus(); }
+        if (['ArrowUp', 'w', 'W'].includes(k))   { e.preventDefault(); preview(current - 1); list.querySelector(`[data-i="${current}"]`).focus(); }
+        if (k === 'Escape' || k === 'Backspace') location.href = 'index.html';
+      }
+    });
+
+    document.getElementById('select-btn').addEventListener('click', () => openFilm(current));
+    document.getElementById('watch-btn').addEventListener('click', () => openFilm(current));
+
+    document.querySelector('[data-count]').textContent = `${FILMS.length}/${SLOTS}`;
+    document.querySelector('[data-segments]').innerHTML = segments();
+    document.querySelector('[data-tokens]').textContent = `${SLOTS - FILMS.length} Open Slots`;
+
+    renderList();
+    window.addEventListener('hashchange', route);
+    route();
+  </script>
 
 </body>
 </html>
